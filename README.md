@@ -22,7 +22,7 @@ Immutability的出现只为增强react组件性能，同时降低开发者的学
 	    import {IBDecorate} from 'immutability';
 	    import {Component} from 'react';
 	    
-	    @IbDecorate() class Tmall extends Component{
+	    @IBDecorate() class Tmall extends Component{
 	    
 	    	state={
 	    		say:"Hello world",
