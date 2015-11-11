@@ -66,9 +66,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utils = __webpack_require__(3);
 
+	var _utils2 = _interopRequireDefault(_utils);
+
 	var _constans = __webpack_require__(1);
 
-	__webpack_require__(6);
+	var _patchs = __webpack_require__(6);
+
+	var _patchs2 = _interopRequireDefault(_patchs);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 	}
 
-	IBDecorate.utils = Utils;
+	IBDecorate.utils = _utils2.default;
 
 	exports.default = IBDecorate;
 
@@ -94,7 +98,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.IBProto = exports.DEFAULT_KEYWORDS = exports.IB_TYPE = exports.IB_DATA = exports.NativeSetState = undefined;
+	exports.DEFAULT_KEYWORDS = exports.IB_TYPE = exports.IB_DATA = exports.NativeSetState = undefined;
 
 	var _react = __webpack_require__(7);
 
@@ -105,8 +109,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var IB_TYPE = exports.IB_TYPE = '@@__IMMUTABLE_ITERABLE__@@';
 
 	var DEFAULT_KEYWORDS = exports.DEFAULT_KEYWORDS = ['constructor', 'setState', 'getState'];
-
-	var IBProto = exports.IBProto = Immutable.Collection.prototype;
 
 /***/ },
 /* 2 */
@@ -140,12 +142,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	exports.createWrapper = undefined;
+	exports.toArray = toArray;
+	exports.shallowExtend = shallowExtend;
+	exports.extend = extend;
+	exports.createKeyWordsFilter = createKeyWordsFilter;
+	exports.resolveGetterPath = resolveGetterPath;
+	exports.isImmutable = isImmutable;
+	exports.getProto = getProto;
 
 	var _types = __webpack_require__(2);
 
 	var _constans = __webpack_require__(1);
 
-	var createWrapper = function createWrapper(context) {
+	var createWrapper = exports.createWrapper = function createWrapper(context) {
 		return function (name, func) {
 			return context[name] = func(context[name]);
 		};
@@ -245,6 +255,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
@@ -283,7 +295,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function getState(path) {
 		if (!this.state) return {};
 		var selfState = this.state[_constans.IB_DATA];
-		if (!path) return selfState ? selfState : (0, _immutable.fromJS)(this.state);
+		if (!path) return selfState ? selfState.toJS() : (0, _immutable.fromJS)(this.state).toJS();
 		if (selfState) {
 			return selfState.getIn(path);
 		} else {
@@ -295,7 +307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		return !(0, _immutable.is)(this.props, newProps) || !(0, _immutable.is)(newState[_constans.IB_DATA], this.state[_constans.IB_DATA]);
 	}
 
-	exports.default = Object.assign(_immutable2.default, {
+	exports.default = _extends({}, _immutable2.default, {
 		setState: setState,
 		getState: getState,
 		shouldComponentUpdate: shouldComponentUpdate
@@ -306,6 +318,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
 	var _utils = __webpack_require__(3);
 
@@ -320,13 +336,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ImmutableWrapper = (0, _utils.createWrapper)((0, _utils.getProto)(_immutable2.default.Collection));
 
 	ImmutableWrapper('getIn', function (getIn) {
-		return function (path) {
-			if (_immutable.Iterable.isIterable(path)) return getIn.call(undefined, path);
-			if ((0, _types.isArr)(path)) return getIn.call(undefined, path);
-			if ((0, _types.isStr)(path)) return getIn.call(undefined, (0, _utils.resolveGetterPath)(path));
+		return function newGetIn(path) {
+			var self = this;
+			if (_immutable.Iterable.isIterable(path)) return getIn.call(self, path);
+			if ((0, _types.isArr)(path)) return getIn.call(self, path);
+			if ((0, _types.isStr)(path)) return getIn.call(self, (0, _utils.resolveGetterPath)(path));
 			return {};
 		};
 	});
+
+	exports.default = _immutable2.default;
 
 /***/ },
 /* 7 */

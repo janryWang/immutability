@@ -1,10 +1,10 @@
 {
   "name": "immutability",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "./lib",
   "scripts": {
-    "test": "mocha --compilers js:babel/register --recursive",
+    "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
     "build:lib": "babel src --out-dir lib",
     "build:umd": "webpack src/index.js dist/immutability.js --config webpack.config.development.js",
@@ -41,6 +41,7 @@
     "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.2",
+    "react-dom": "^0.14.2",
     "sinon": "^1.17.2",
     "webpack": "^1.12.4"
   }

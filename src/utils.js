@@ -1,14 +1,14 @@
 import {isFunc,isBool,isArr,isStr} from './types';
 import {IB_TYPE} from './constans';
 
-let createWrapper = context => (name,func) => context[name] = func(context[name]);
+export let createWrapper = context => (name,func) => context[name] = func(context[name]);
 
-function toArray(){
+export function toArray(){
 	var args = arguments;
 	return args.length == 1 ? Array.prototype.slice.apply(args[0]) : toArray(args);
 }
 
-function shallowExtend(obj1,obj2,callback){
+export function shallowExtend(obj1,obj2,callback){
 	if(obj1){
 		if(obj2){
 			for(var name in obj2){
@@ -24,7 +24,7 @@ function shallowExtend(obj1,obj2,callback){
 	}
 }
 
-function extend(){
+export function extend(){
 	var args = toArray(arguments),argLength,filter;
 	if(isFunc(args[args.length - 1]) && isBool(args[0]) && args[0] === true){
 		filter = args[args.length - 1];
@@ -40,14 +40,14 @@ function extend(){
 	}
 }
 
-function createKeyWordsFilter(keywords){
+export function createKeyWordsFilter(keywords){
 	return (_,key)=>{
 		return keywords.indexOf(key) > -1;
 	};
 }
 
 
-function resolveGetterPath(path) {
+export function resolveGetterPath(path) {
 	function parse(path) {
 		var res = [], l = 0;
 		for (var i = 0; i < path.length; i++) {
@@ -64,11 +64,11 @@ function resolveGetterPath(path) {
 	return isArr(path) ? path : isStr(path) ? parse(path) : [];
 }
 
-function isImmutable(data){
+export function isImmutable(data){
 	return data && data[IB_TYPE];
 }
 
-function getProto(obj){
+export function getProto(obj){
 	return isFunc(obj) ? obj.prototype : obj;
 }
 

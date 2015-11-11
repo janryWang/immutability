@@ -1,7 +1,8 @@
 import MixinMethods from './mixins';
-import {extend,getProto,createKeyWordsFilter} from './utils';
+import Utils,{extend,getProto,createKeyWordsFilter} from './utils';
 import {DEFAULT_KEYWORDS} from './constans';
-import './patchs';
+import Immutable from './patchs';
+
 
 function IBDecorate(mixins){
 	var newClass = mixins && mixins.prototype ? extend(getProto(mixins),MixinMethods) : undefined;

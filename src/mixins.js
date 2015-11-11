@@ -30,7 +30,7 @@ function setState(nextState, callback) {
 function getState(path) {
 	if (!this.state) return {};
 	var selfState = this.state[IB_DATA];
-	if (!path) return selfState ? selfState : fromJS(this.state);
+	if (!path) return selfState ? selfState.toJS() : fromJS(this.state).toJS();
 	if (selfState) {
 		return selfState.getIn(path);
 	} else {
@@ -45,8 +45,9 @@ function shouldComponentUpdate(newProps, newState) {
 
 
 
-export default Object.assign(Immutable,{
+export default {
+	...Immutable,
 	setState,
 	getState,
 	shouldComponentUpdate
-});
+}

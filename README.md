@@ -46,7 +46,7 @@ Immutability的出现只为增强react组件性能，同时降低开发者的学
 	    
 	    	render(){
 	    		return (
-	    			<div>this.getState('say')</div>
+	    			<div>{this.getState('say')}</div>
 	    		);
 	    	
 	    	}
