@@ -1,12 +1,12 @@
-#Immutability
+Immutability
+===
 
-##安装
-
+安装
 ===
 
     npm install --save immutability
     
-##介绍
+介绍
 ===
 
 React是一款非常棒的JS框架，它使得组件开发效率变得更高，同时借助它的虚拟dom的diff算法可以使得页面重绘次数大大减少，渲染性能大大提高。但是对于render而言，它的调用次数在默认情况下是不太可控的，因为render在调用之前会对state进行一次浅比较，如果oldState不等于nextState，就会调用render方法，很明显，如果state是一个庞大的树，或者存在一个大型数组结构，这样的比较方式是不够好的，无用的render次数太多，所以，我们必须进行深度比较，从而降低render次数，提高整体性能，但是对于深层比较，普通的深度遍历，其实还是有性能问题的，所以facebook创造了Immutable.js，它是利用了函数式中的持久化数据结构的优点，将对象与对象间的比较变得更加高效。所以利用Immutable.js完全可以大大提升react组件的性能。
@@ -32,7 +32,7 @@ Immutability的出现只为增强react组件性能，同时降低开发者的学
 	    	componnentDidMount(){
 	    		let self = this;
 	    		let {rock} = this.getState();
-	    		setInterVal(()=>{
+	    		setInterval(()=>{
 	    		   if(self.unmount) return;
 	    			self.setState({
 	    				say:rock ? 'Rock the world' : 'Hello world'
