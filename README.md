@@ -18,7 +18,7 @@ Immutability的出现只为增强react组件性能，同时降低开发者的学
 它有几个优点：
 
 1. 使用方便，利用es6的decorate
-
+```javascript
 	    import {IBDecorate} from 'immutability';
 	    import {Component} from 'react';
 	    
@@ -52,8 +52,7 @@ Immutability的出现只为增强react组件性能，同时降低开发者的学
 	    	}
 	    
 	    }
-	    
-	    
+	```
 2. 学习成本非常低，只需要知道怎么使用`this.getState()`这个API就行，记住，获取状态，不要再和过去一样`this.state.say`这样来获取哦，当然如果你想访问深层对象，`this.getState('a.b.c.d[5]')`这样就OK了。
 
 3. Immutable的API接口已集成到每个组件中，方便开发者使用,比如
