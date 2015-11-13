@@ -1,5 +1,5 @@
 import Immutable,{is,fromJS} from 'immutable';
-import {isFunc,isObj,isArr} from './types';
+import {isFunc,isObj,isArr,isBool,isStr} from './types';
 import {IB_DATA,NativeSetState} from './constans';
 import {isImmutable} from './utils';
 
@@ -27,15 +27,36 @@ function setState(nextState, callback) {
 }
 
 
-function getState(path) {
-	if (!this.state) return {};
-	var selfState = this.state[IB_DATA];
-	if (!path) return selfState ? selfState.toJS() : fromJS(this.state).toJS();
-	if (selfState) {
-		return selfState.getIn(path);
-	} else {
-		return fromJS(this.state).getIn(path);
+
+function getState(path,isToJS = false) {
+	let self = this;
+	let _getState = path => {
+		if (!self.state) return {};
+		var selfState = self.state[IB_DATA];
+		if (!path) return selfState ? selfState : fromJS(self.state);
+		if (selfState) {
+			return selfState.getIn(path);
+		} else {
+			return fromJS(self.state).getIn(path);
+		}
+	};
+
+	let _toJS = obj=> obj.toJS ?  obj.toJS() : obj;
+
+	if(isBool(path)){
+		isToJS = path;
 	}
+
+	if(isStr(isToJS)){
+		path = isToJS;
+	}
+
+	if(isBool(path) && isBool(isToJS)){
+		isToJS = path;
+		path = [];
+	}
+
+	return isToJS ? _toJS(_getState(path)) : _getState(path);
 
 }
 

@@ -150,6 +150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.resolveGetterPath = resolveGetterPath;
 	exports.isImmutable = isImmutable;
 	exports.getProto = getProto;
+	exports.isValid = isValid;
 
 	var _types = __webpack_require__(2);
 
@@ -211,16 +212,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			var res = [],
 			    l = 0;
 			for (var i = 0; i < path.length; i++) {
-				if (path[i] == '.' || path[i] == '[') {
+				if (path[i] == '.' || path[i] == '[' && i != 0) {
 					l++;
-				} else if (path[i] != ']') {
+				} else if (path[i] != ']' && path[i] != '[') {
 					res[l] = res[l] || '';
 					res[l] += path[i];
 				}
 			}
 			return res;
 		}
-
 		return (0, _types.isArr)(path) ? path : (0, _types.isStr)(path) ? parse(path) : [];
 	}
 
@@ -232,11 +232,16 @@ return /******/ (function(modules) { // webpackBootstrap
 		return (0, _types.isFunc)(obj) ? obj.prototype : obj;
 	}
 
+	function isValid(obj) {
+		return obj !== undefined && obj !== null;
+	}
+
 	exports.default = {
 		createWrapper: createWrapper,
 		toArray: toArray,
 		shallowExtend: shallowExtend,
 		extend: extend,
+		isValid: isValid,
 		createKeyWordsFilter: createKeyWordsFilter,
 		resolveGetterPath: resolveGetterPath,
 		isImmutable: isImmutable,
@@ -293,14 +298,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function getState(path) {
-		if (!this.state) return {};
-		var selfState = this.state[_constans.IB_DATA];
-		if (!path) return selfState ? selfState.toJS() : (0, _immutable.fromJS)(this.state).toJS();
-		if (selfState) {
-			return selfState.getIn(path);
-		} else {
-			return (0, _immutable.fromJS)(this.state).getIn(path);
+		var isToJS = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+		var self = this;
+		var _getState = function _getState(path) {
+			if (!self.state) return {};
+			var selfState = self.state[_constans.IB_DATA];
+			if (!path) return selfState ? selfState : (0, _immutable.fromJS)(self.state);
+			if (selfState) {
+				return selfState.getIn(path);
+			} else {
+				return (0, _immutable.fromJS)(self.state).getIn(path);
+			}
+		};
+
+		var _toJS = function _toJS(obj) {
+			return obj.toJS ? obj.toJS() : obj;
+		};
+
+		if ((0, _types.isBool)(path)) {
+			isToJS = path;
 		}
+
+		if ((0, _types.isStr)(isToJS)) {
+			path = isToJS;
+		}
+
+		if ((0, _types.isBool)(path) && (0, _types.isBool)(isToJS)) {
+			isToJS = path;
+			path = [];
+		}
+
+		return isToJS ? _toJS(_getState(path)) : _getState(path);
 	}
 
 	function shouldComponentUpdate(newProps, newState) {

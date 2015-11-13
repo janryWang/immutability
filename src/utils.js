@@ -51,16 +51,15 @@ export function resolveGetterPath(path) {
 	function parse(path) {
 		var res = [], l = 0;
 		for (var i = 0; i < path.length; i++) {
-			if (path[i] == '.' || path[i] == '[') {
+			if (path[i] == '.' || path[i] == '[' && i != 0) {
 				l++;
-			} else if (path[i] != ']') {
+			} else if (path[i] != ']' && path[i] != '[') {
 				res[l] = res[l] || '';
 				res[l] += path[i]
 			}
 		}
 		return res;
 	}
-
 	return isArr(path) ? path : isStr(path) ? parse(path) : [];
 }
 
@@ -72,12 +71,17 @@ export function getProto(obj){
 	return isFunc(obj) ? obj.prototype : obj;
 }
 
+export function isValid(obj){
+	return obj !== undefined && obj !== null;
+}
+
 
 export default {
 	createWrapper,
 	toArray,
 	shallowExtend,
 	extend,
+	isValid,
 	createKeyWordsFilter,
 	resolveGetterPath,
 	isImmutable,

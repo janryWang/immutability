@@ -20,6 +20,11 @@ describe('api', function () {
 			super(props);
 			this.state  = {
 				say: "Hello world",
+				dataArray:[
+					{
+						name:"abc"
+					}
+				],
 				rock: false
 			};
 		}
@@ -51,6 +56,19 @@ describe('api', function () {
 		}
 
 		render() {
+			let self = this;
+			it('should be get the name',function(){
+				self.getState('dataArray').getIn('0.name').should.be.equal('abc');
+			});
+
+			it('should be get the name',function(){
+				self.getState('dataArray').getIn('[0].name').should.be.equal('abc');
+			});
+
+			it('should be get the name',function(){
+				self.getState().getIn('dataArray[0].name').should.be.equal('abc');
+			});
+
 			return (
 				<div>{this.getState('say')}</div>
 			);

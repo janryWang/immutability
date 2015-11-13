@@ -1,4 +1,3 @@
-
 module.exports = function (html) {
 	if (typeof document !== 'undefined') {
 		return;
@@ -11,3 +10,4 @@ module.exports = function (html) {
 		userAgent: 'JSDOM'
 	};
 };
+
