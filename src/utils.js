@@ -1,4 +1,4 @@
-import {isFunc,isBool,isArr,isStr} from './types';
+import types,{isFunc,isBool,isArr,isStr} from './types';
 import {IB_TYPE} from './constans';
 
 export let createWrapper = context => (name,func) => context[name] = func(context[name]);
@@ -79,6 +79,7 @@ export function isValid(obj){
 export default {
 	createWrapper,
 	toArray,
+	types,
 	shallowExtend,
 	extend,
 	isValid,

@@ -7,3 +7,14 @@ export let isReg = isType('RegExp')
 export let isBool = isType('Boolean')
 export let isFunc = isType('Function')
 export let isArr = Array.isArray || isType('Array')
+
+export default {
+	isType,
+	isObj,
+	isStr,
+	isNum,
+	isReg,
+	isBool,
+	isFunc,
+	isArr
+}

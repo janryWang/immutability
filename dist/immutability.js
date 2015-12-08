@@ -117,13 +117,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	//types.js
 	var isType = exports.isType = function isType(type) {
-	  return function (obj) {
-	    return obj != null && Object.prototype.toString.call(obj) === '[object ' + type + ']';
-	  };
+		return function (obj) {
+			return obj != null && Object.prototype.toString.call(obj) === '[object ' + type + ']';
+		};
 	};
 	var isObj = exports.isObj = isType('Object');
 	var isStr = exports.isStr = isType('String');
@@ -132,6 +132,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	var isBool = exports.isBool = isType('Boolean');
 	var isFunc = exports.isFunc = isType('Function');
 	var isArr = exports.isArr = Array.isArray || isType('Array');
+
+	exports.default = {
+		isType: isType,
+		isObj: isObj,
+		isStr: isStr,
+		isNum: isNum,
+		isReg: isReg,
+		isBool: isBool,
+		isFunc: isFunc,
+		isArr: isArr
+	};
 
 /***/ },
 /* 3 */
@@ -154,7 +165,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _types = __webpack_require__(2);
 
+	var _types2 = _interopRequireDefault(_types);
+
 	var _constans = __webpack_require__(1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var createWrapper = exports.createWrapper = function createWrapper(context) {
 		return function (name, func) {
@@ -239,6 +254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = {
 		createWrapper: createWrapper,
 		toArray: toArray,
+		types: _types2.default,
 		shallowExtend: shallowExtend,
 		extend: extend,
 		isValid: isValid,

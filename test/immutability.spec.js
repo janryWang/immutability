@@ -90,6 +90,14 @@ describe('api', function () {
 		TestComponent.prototype.should.have.property('fromJS');
 	});
 
+	it('should have utils',()=>{
+		IBDecorate.utils.should.have.property('toArray');
+	});
+
+	it('should have types',()=>{
+		IBDecorate.utils.types.should.have.property('isStr');
+	});
+
 	ReactDOM.render(
 		<TestComponent/>,
 		root
