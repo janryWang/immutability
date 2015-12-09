@@ -1,3 +1,4 @@
+sudo: required
 language: node_js
 node_js:
 - v4.2.1
@@ -9,12 +10,8 @@ before_install:
       echo "Only docs were updated, stopping build process."
       exit
     fi
-    npm install mocha babel -g
+    npm install mocha babel-cli -g
     mocha --version & babel --version
 script:
 - |
-    if [ "$TEST_TYPE" = test ]; then
-      npm test
-    else
-      npm run $TEST_TYPE
-    fi
+    npm test
