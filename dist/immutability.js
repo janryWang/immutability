@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 
 	var _mixins = __webpack_require__(5);
@@ -77,12 +77,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function IBDecorate(mixins) {
-			var newClass = mixins && mixins.prototype ? (0, _utils.extend)((0, _utils.getProto)(mixins), _mixins2.default) : undefined;
-			return newClass || function (_class_) {
-					(0, _utils.extend)((0, _utils.getProto)(_class_), _mixins2.default);
-					(0, _utils.extend)(true, (0, _utils.getProto)(_class_), mixins, (0, _utils.createKeyWordsFilter)(_constans.DEFAULT_KEYWORDS));
-					return _class_;
-			};
+		var newClass = undefined;
+		if (mixins && mixins.prototype) {
+			(0, _utils.extend)((0, _utils.getProto)(mixins), _mixins2.default);
+			newClass = mixins;
+		}
+		return newClass || function (_class_) {
+			(0, _utils.extend)((0, _utils.getProto)(_class_), _mixins2.default);
+			(0, _utils.extend)(true, (0, _utils.getProto)(_class_), mixins, (0, _utils.createKeyWordsFilter)(_constans.DEFAULT_KEYWORDS));
+			return _class_;
+		};
 	}
 
 	IBDecorate.utils = _utils2.default;
