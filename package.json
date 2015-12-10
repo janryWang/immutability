@@ -10,6 +10,8 @@
     "build:umd": "webpack src/index.js dist/immutability.js --config webpack.config.development.js",
     "build:umd:min": "webpack src/index.js dist/immutability.min.js --config webpack.config.production.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
+    "cover": "istanbul cover _mocha -- -u exports --compilers js:babel-core/register -R spec",
+    "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -u exports --compilers js:babel-core/register -R spec && cat coverage/lcov.info | coveralls",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -39,6 +41,8 @@
     "babel-preset-stage-0": "^6.1.2",
     "chai": "^3.4.1",
     "jsdom": "^7.0.2",
+    "coveralls": "^2.11.4",
+    "istanbul": "^0.4.1",
     "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.2",
     "react-dom": "^0.14.2",
