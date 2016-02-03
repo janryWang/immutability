@@ -15,4 +15,14 @@ ImmutableWrapper('getIn',(getIn)=>{
 	}
 });
 
+ImmutableWrapper('setIn',(setIn)=>{
+	return function newSetIn(path){
+		let self = this;
+		if(Iterable.isIterable(path)) return setIn.call(self,path);
+		if(isArr(path)) return setIn.call(self,path);
+		if(isStr(path)) return setIn.call(self,resolveGetterPath(path));
+		return {};
+	}
+});
+
 export default Immutable;

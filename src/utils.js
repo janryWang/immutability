@@ -1,6 +1,21 @@
 import types,{isFunc,isBool,isArr,isStr} from './types';
 import {IB_TYPE} from './constans';
 
+const ws_reg = /^(\s|\n\t)+$/
+
+const parsePath = path=>{
+	let res = [], l = 0
+	for (var i = 0; i < path.length; i++) {
+		if (path[i] == '.' || path[i] == '[' && i != 0) {
+			l++
+		} else if (path[i] != ']' && path[i] != '[' && !ws_reg.test(path[i])) {
+			res[l] = res[l] || ''
+			res[l] += path[i]
+		}
+	}
+	return res
+}
+
 export let createWrapper = context => (name,func) => context[name] = func(context[name]);
 
 export function toArray(){
@@ -48,19 +63,7 @@ export function createKeyWordsFilter(keywords){
 
 
 export function resolveGetterPath(path) {
-	function parse(path) {
-		var res = [], l = 0;
-		for (var i = 0; i < path.length; i++) {
-			if (path[i] == '.' || path[i] == '[' && i != 0) {
-				l++;
-			} else if (path[i] != ']' && path[i] != '[') {
-				res[l] = res[l] || '';
-				res[l] += path[i]
-			}
-		}
-		return res;
-	}
-	return isArr(path) ? path : isStr(path) ? parse(path) : [];
+    return isArr(path) ? path : isStr(path) ? parsePath(path) : []
 }
 
 export function isImmutable(data){

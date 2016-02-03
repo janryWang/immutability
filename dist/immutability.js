@@ -175,6 +175,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var ws_reg = /^(\s|\n\t)+$/;
+
+	var parsePath = function parsePath(path) {
+		var res = [],
+		    l = 0;
+		for (var i = 0; i < path.length; i++) {
+			if (path[i] == '.' || path[i] == '[' && i != 0) {
+				l++;
+			} else if (path[i] != ']' && path[i] != '[' && !ws_reg.test(path[i])) {
+				res[l] = res[l] || '';
+				res[l] += path[i];
+			}
+		}
+		return res;
+	};
+
 	var createWrapper = exports.createWrapper = function createWrapper(context) {
 		return function (name, func) {
 			return context[name] = func(context[name]);
@@ -227,20 +243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function resolveGetterPath(path) {
-		function parse(path) {
-			var res = [],
-			    l = 0;
-			for (var i = 0; i < path.length; i++) {
-				if (path[i] == '.' || path[i] == '[' && i != 0) {
-					l++;
-				} else if (path[i] != ']' && path[i] != '[') {
-					res[l] = res[l] || '';
-					res[l] += path[i];
-				}
-			}
-			return res;
-		}
-		return (0, _types.isArr)(path) ? path : (0, _types.isStr)(path) ? parse(path) : [];
+		return (0, _types.isArr)(path) ? path : (0, _types.isStr)(path) ? parsePath(path) : [];
 	}
 
 	function isImmutable(data) {
@@ -390,6 +393,16 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (_immutable.Iterable.isIterable(path)) return getIn.call(self, path);
 			if ((0, _types.isArr)(path)) return getIn.call(self, path);
 			if ((0, _types.isStr)(path)) return getIn.call(self, (0, _utils.resolveGetterPath)(path));
+			return {};
+		};
+	});
+
+	ImmutableWrapper('setIn', function (setIn) {
+		return function newSetIn(path) {
+			var self = this;
+			if (_immutable.Iterable.isIterable(path)) return setIn.call(self, path);
+			if ((0, _types.isArr)(path)) return setIn.call(self, path);
+			if ((0, _types.isStr)(path)) return setIn.call(self, (0, _utils.resolveGetterPath)(path));
 			return {};
 		};
 	});
