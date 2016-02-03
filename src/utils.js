@@ -3,7 +3,10 @@ import {IB_TYPE} from './constans';
 
 const ws_reg = /^(\s|\n\t)+$/
 
+let pathCache = {}
+
 const parsePath = path=>{
+    if(pathCache[path]) return pathCache[path]
 	let res = [], l = 0
 	for (var i = 0; i < path.length; i++) {
 		if (path[i] == '.' || path[i] == '[' && i != 0) {
@@ -13,6 +16,7 @@ const parsePath = path=>{
 			res[l] += path[i]
 		}
 	}
+    pathCache[path] = res
 	return res
 }
 

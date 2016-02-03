@@ -177,7 +177,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ws_reg = /^(\s|\n\t)+$/;
 
+	var pathCache = {};
+
 	var parsePath = function parsePath(path) {
+		if (pathCache[path]) return pathCache[path];
 		var res = [],
 		    l = 0;
 		for (var i = 0; i < path.length; i++) {
@@ -188,6 +191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				res[l] += path[i];
 			}
 		}
+		pathCache[path] = res;
 		return res;
 	};
 
